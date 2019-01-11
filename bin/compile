@@ -110,7 +110,7 @@ Dir.mktmpdir 'ssh_buidpack' do |dir|
   puts File.read "#{dir}/ssh_buildpack_key.pub.rfc"
 
   # Now turn it into a pem
-  `ssh-keygen -i -P '' -f #{dir}/ssh_buildpack_key.pub.rfc > #{dir}/ssh_buildpack_key.pub 2>/dev/null`
+  `ssh-keygen -i -P '' -f #{dir}/ssh_buildpack_key.pub.rfc > #{dir}/ssh_buildpack_key.pub`
   arrow 'Key result'
   puts File.read "#{dir}/ssh_buildpack_key.pub"
 
