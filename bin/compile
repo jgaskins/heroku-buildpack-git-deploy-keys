@@ -103,6 +103,7 @@ clean_host_hash = nil
 
 Dir.mktmpdir 'ssh_buidpack' do |dir|
   arrow 'Original key'
+  puts key_file_path
   puts File.read(key_file_path)
   # First build a rfc standard public key
   arrow 'RFC public key'
