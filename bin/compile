@@ -105,13 +105,13 @@ Dir.mktmpdir 'ssh_buidpack' do |dir|
   arrow 'Original key'
   puts File.read(key_file_path)
   # First build a rfc standard public key
-  `ssh-keygen -e -P '' -f #{key_file_path} > #{dir}/ssh_buildpack_key.pub.rfc`
   arrow 'RFC public key'
+  `ssh-keygen -e -P '' -f #{key_file_path} > #{dir}/ssh_buildpack_key.pub.rfc`
   puts File.read "#{dir}/ssh_buildpack_key.pub.rfc"
 
   # Now turn it into a pem
-  `ssh-keygen -i -P '' -f #{dir}/ssh_buildpack_key.pub.rfc > #{dir}/ssh_buildpack_key.pub`
   arrow 'Key result'
+  `ssh-keygen -i -P '' -f #{dir}/ssh_buildpack_key.pub.rfc > #{dir}/ssh_buildpack_key.pub`
   puts File.read "#{dir}/ssh_buildpack_key.pub"
 
   # Fingerprint the file with md5. It's insecure but that's fine, we're validating the key
