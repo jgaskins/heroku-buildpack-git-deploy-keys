@@ -107,7 +107,7 @@ Dir.mktmpdir 'ssh_buidpack' do |dir|
   puts File.read(key_file_path)
   # First build a rfc standard public key
   arrow 'RFC public key'
-  `ssh-keygen -e -P '' -f #{key_file_path} > #{dir}/ssh_buildpack_key.pub.rfc`
+  `ssh-keygen -e -P '' -f '#{key_file_path}' > #{dir}/ssh_buildpack_key.pub.rfc`
   puts File.read "#{dir}/ssh_buildpack_key.pub.rfc"
 
   # Now turn it into a pem
