@@ -102,6 +102,8 @@ temp_key = nil
 clean_host_hash = nil
 
 Dir.mktmpdir 'ssh_buidpack' do |dir|
+  arrow 'Original key'
+  puts File.read(key_file_path)
   # First build a rfc standard public key
   `ssh-keygen -e -P '' -f #{key_file_path} < /dev/null > #{dir}/ssh_buildpack_key.pub.rfc 2>/dev/null`
   arrow 'RFC public key'
