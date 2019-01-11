@@ -104,9 +104,13 @@ clean_host_hash = nil
 Dir.mktmpdir 'ssh_buidpack' do |dir|
   # First build a rfc standard public key
   `ssh-keygen -e -P '' -f #{key_file_path} < /dev/null > #{dir}/ssh_buildpack_key.pub.rfc 2>/dev/null`
+  arrow 'RFC public key'
+  puts File.read "#{dir}/ssh_buildpack_key.pub.rfc"
 
   # Now turn it into a pem
   `ssh-keygen -i -P '' -f #{dir}/ssh_buildpack_key.pub.rfc > #{dir}/ssh_buildpack_key.pub 2>/dev/null`
+  arrow 'Key result'
+  puts File.read "#{dir}/ssh_buildpack_key.pub"
 
   # Fingerprint the file with md5. It's insecure but that's fine, we're validating the key
   # Annoyingly openssh changed how fingerprints are made in 6.8, and heroku hasn't migrated
