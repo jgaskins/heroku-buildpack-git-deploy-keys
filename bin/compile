@@ -122,6 +122,12 @@ Dir.mktmpdir 'ssh_buidpack' do |dir|
   # Expecting something like "AB:02: etc."
   temp_key = `echo "#{fingerprint}" | tr -ds ':' '' | egrep -ie "[a-f0-9]{32}" 2>/dev/null`
 
+  pp(
+    ssh_version: ssh_version,
+    fingerprint: fingerprint,
+    temp_key: temp_key,
+  )
+
   if temp_key.strip == ''
     alert "GIT_DEPLOY_KEY was invalid"
     exit 1
