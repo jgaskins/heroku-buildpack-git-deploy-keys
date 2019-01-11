@@ -11,6 +11,6 @@ testSSHKeysDroppedOnDisk()
 {
   compile
   assertCapturedSuccess
-  assertFileMD5 "c36450c2b759b174a55e6ed4f113eada" "$HOME/.ssh/private_key"
+  assertFileMD5 "156b541999de8da0623cf24ac82fd74f" "$HOME/.ssh/private_key"
   assertTrue "[ -e $HOME/.ssh/known_hosts ]"
 }
