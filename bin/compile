@@ -159,7 +159,7 @@ File.write "#{SSH_DIR}/known_hosts", host_hash
 FileUtils.chmod 0600, "#{SSH_DIR}/known_hosts"
 arrow "Wrote host hash to user's known hosts"
 
-File.write "#{SSH_DIR}/config" <<~CONFIG
+File.write "#{SSH_DIR}/config", <<~CONFIG
   Host #{git_host}
        User #{git_user}
        IdentityFile #{SSH_DIR}/private_key
