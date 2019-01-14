@@ -101,50 +101,50 @@ fingerprint = nil
 temp_key = nil
 clean_host_hash = nil
 
-Dir.mktmpdir 'ssh_buidpack' do |dir|
-  arrow 'Original key'
-  puts key_file_path
-  puts File.read(key_file_path)
-  # First build a rfc standard public key
-  arrow 'RFC public key'
-  arrow "ssh-keygen -e -P '' -f #{key_file_path}"
-  arrow `ssh-keygen -e -P '' -f #{key_file_path}`
-  `ssh-keygen -e -P '' -f #{key_file_path} > #{dir}/ssh_buildpack_key.pub.rfc`
-  puts File.read "#{dir}/ssh_buildpack_key.pub.rfc"
+# Dir.mktmpdir 'ssh_buidpack' do |dir|
+#   arrow 'Original key'
+#   puts key_file_path
+#   puts File.read(key_file_path)
+#   # First build a rfc standard public key
+#   arrow 'RFC public key'
+#   arrow "ssh-keygen -e -P '' -f #{key_file_path}"
+#   arrow `ssh-keygen -e -P '' -f #{key_file_path}`
+#   `ssh-keygen -e -P '' -f #{key_file_path} > #{dir}/ssh_buildpack_key.pub.rfc`
+#   puts File.read "#{dir}/ssh_buildpack_key.pub.rfc"
 
-  # Now turn it into a pem
-  arrow 'Key result'
-  `ssh-keygen -i -P '' -f #{dir}/ssh_buildpack_key.pub.rfc > #{dir}/ssh_buildpack_key.pub`
-  puts File.read "#{dir}/ssh_buildpack_key.pub"
+#   # Now turn it into a pem
+#   arrow 'Key result'
+#   `ssh-keygen -i -P '' -f #{dir}/ssh_buildpack_key.pub.rfc > #{dir}/ssh_buildpack_key.pub`
+#   puts File.read "#{dir}/ssh_buildpack_key.pub"
 
-  # Fingerprint the file with md5. It's insecure but that's fine, we're validating the key
-  # Annoyingly openssh changed how fingerprints are made in 6.8, and heroku hasn't migrated
-  # all their environments...
-  ssh_version = `ssh -V 2>&1`.match(/OpenSSH_([^ ]*)/)[1]
-  # this works for stuff like 7.8p1 etc but it's a sketchy comparison...
-  fingerprint = if ssh_version > "6.8"
-                  `ssh-keygen -l -E md5 -f #{dir}/ssh_buildpack_key.pub | awk '{print $2}'`
-                else
-                  `ssh-keygen -l -f #{dir}/ssh_buildpack_key.pub | awk '{print $2}'`
-                end
+#   # Fingerprint the file with md5. It's insecure but that's fine, we're validating the key
+#   # Annoyingly openssh changed how fingerprints are made in 6.8, and heroku hasn't migrated
+#   # all their environments...
+#   ssh_version = `ssh -V 2>&1`.match(/OpenSSH_([^ ]*)/)[1]
+#   # this works for stuff like 7.8p1 etc but it's a sketchy comparison...
+#   fingerprint = if ssh_version > "6.8"
+#                   `ssh-keygen -l -E md5 -f #{dir}/ssh_buildpack_key.pub | awk '{print $2}'`
+#                 else
+#                   `ssh-keygen -l -f #{dir}/ssh_buildpack_key.pub | awk '{print $2}'`
+#                 end
 
-  # Expecting something like "AB:02: etc."
-  temp_key = `echo "#{fingerprint}" | tr -ds ':' '' | egrep -ie "[a-f0-9]{32}" 2>/dev/null`
+#   # Expecting something like "AB:02: etc."
+#   temp_key = `echo "#{fingerprint}" | tr -ds ':' '' | egrep -ie "[a-f0-9]{32}" 2>/dev/null`
 
-  pp(
-    ssh_version: ssh_version,
-    fingerprint: fingerprint,
-    temp_key: temp_key,
-  )
+#   pp(
+#     ssh_version: ssh_version,
+#     fingerprint: fingerprint,
+#     temp_key: temp_key,
+#   )
 
-  if temp_key.strip == ''
-    alert "GIT_DEPLOY_KEY was invalid"
-    exit 1
-  else
-    arrow "Using GIT_DEPLOY_KEY #{fingerprint}"
-  end
+#   if temp_key.strip == ''
+#     alert "GIT_DEPLOY_KEY was invalid"
+#     exit 1
+#   else
+#     arrow "Using GIT_DEPLOY_KEY #{fingerprint}"
+#   end
 
-end
+# end
 
 # Create the ssh directory on the server
 Dir.mkdir(SSH_DIR, 0700) unless File.exists?(SSH_DIR)
