@@ -163,6 +163,7 @@ end
 FileUtils.chmod 0600, "#{SSH_DIR}/known_hosts"
 arrow "Wrote host hash to user's known hosts"
 
+puts `cat #{SSH_DIR}/config`
 File.open "#{SSH_DIR}/config", 'w+' do |f|
   f.puts "Host #{git_host}"
   f.puts "     User #{git_user}"
