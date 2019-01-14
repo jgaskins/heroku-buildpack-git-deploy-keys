@@ -155,8 +155,6 @@ File.open "#{SSH_DIR}/private_key", 'w' do |f|
 end
 FileUtils.chmod 0600, "#{SSH_DIR}/private_key"
 arrow "Wrote ssh key to user's ssh dir"
-arrow File.read "#{SSH_DIR}/private_key"
-arrow `git --version`
 
 #create known_hosts file and write contents
 File.open "#{SSH_DIR}/known_hosts", 'w' do |f|
