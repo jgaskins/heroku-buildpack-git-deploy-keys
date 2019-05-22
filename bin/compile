@@ -129,7 +129,7 @@ Dir.mktmpdir 'ssh_buidpack' do |dir|
                 end
 
   # Expecting something like "AB:02: etc."
-  temp_key = `echo "#{fingerprint}" | tr -ds ':' '' | egrep -ie "[a-f0-9]{32}" 2>/dev/null`
+  temp_key = `echo "#{fingerprint}" | tr -ds ':' '' | egrep -ie "[a-f0-9]{32}"`
 
   pp(
     ssh_version: ssh_version,
